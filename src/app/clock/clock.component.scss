@@ -1,0 +1,62 @@
+.clock-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.date-display {
+  font-size: 1.5em;
+  color: #555;
+  width: 300px; // Fixed width for date display
+  text-align: right;
+  padding-right: 20px;
+  flex-shrink: 0;
+}
+
+.clock-info {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.clock {
+  font-family: 'Arial', sans-serif;
+  font-size: 2em;
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  width: 150px; // Fixed width for clock
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+input {
+  font-size: 1.5em;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  width: 300px;
+  flex-shrink: 0;
+}
+
+input:focus {
+  border-color: #666;
+  outline: none;
+}
+
+button {
+  background-color: #ffcc00; 
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+button:hover {
+  background-color: #e6b800;
+}

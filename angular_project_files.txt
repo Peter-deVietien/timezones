@@ -1,0 +1,785 @@
+=======================================
+File: package.json
+=======================================
+{
+  "name": "timezones",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^16.2.0",
+    "@angular/common": "^16.2.0",
+    "@angular/compiler": "^16.2.0",
+    "@angular/core": "^16.2.0",
+    "@angular/forms": "^16.2.0",
+    "@angular/platform-browser": "^16.2.0",
+    "@angular/platform-browser-dynamic": "^16.2.0",
+    "@angular/router": "^16.2.0",
+    "city-timezones": "^1.3.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.13.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^16.2.2",
+    "@angular/cli": "~16.2.2",
+    "@angular/compiler-cli": "^16.2.0",
+    "@types/jasmine": "~4.3.0",
+    "jasmine-core": "~4.6.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.1.3"
+  }
+}
+
+
+
+=======================================
+File: angular.json
+=======================================
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "timezones": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/timezones",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": [
+              "zone.js"
+            ],
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "timezones:build:production"
+            },
+            "development": {
+              "browserTarget": "timezones:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "timezones:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
+            "tsConfig": "tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+=======================================
+File: tsconfig.json
+=======================================
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}
+
+
+
+=======================================
+File: src/main.ts
+=======================================
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));
+
+
+
+=======================================
+File: src/app/app.module.ts
+=======================================
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { ClockComponent } from './clock/clock.component';
+import { ScrollWheelComponent } from './scroll-wheel/scroll-wheel.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ClockComponent,
+    ScrollWheelComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+=======================================
+File: src/app/app.component.html
+=======================================
+<div class="app-container">
+  <div class="add-clock-container">
+    <button class="add-clock-button" (click)="addClock()">+ Add Clock</button>
+  </div>
+  <div class="clocks-and-wheel">
+    <div class="clocks-container">
+      <div *ngFor="let clock of clocks; let i = index" class="clock-item">
+        <app-clock [city]="clock.city" [timezone]="clock.timezone" [timeOffset]="timeOffset" (remove)="removeClock(i)"></app-clock>
+      </div>
+    </div>
+    <app-scroll-wheel (timeAdjustment)="adjustTime($event)"></app-scroll-wheel>
+  </div>
+</div>
+
+
+
+=======================================
+File: src/app/scroll-wheel/scroll-wheel.component.scss
+=======================================
+.hour-adjuster {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  background-color: #333;
+  border-radius: 10px;
+  color: white;
+}
+
+.hour-display {
+  font-size: 2em;
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #222;
+  border-radius: 5px;
+  width: 80%;
+  text-align: center;
+}
+
+button {
+  background-color: #ffcc00;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  color: black;
+  font-size: 1em;
+  cursor: pointer;
+  margin: 5px 0;
+  width: 80%;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #e6b800;
+}
+
+
+
+=======================================
+File: src/app/scroll-wheel/scroll-wheel.component.html
+=======================================
+<div class="hour-adjuster">
+  <button (click)="adjustHour(1)">+1 hr</button>
+  <div class="hour-display">{{ currentOffset }} hr</div>
+  <button (click)="adjustHour(-1)">-1 hr</button>
+</div>
+
+
+
+=======================================
+File: src/app/scroll-wheel/scroll-wheel.component.spec.ts
+=======================================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ScrollWheelComponent } from './scroll-wheel.component';
+
+describe('ScrollWheelComponent', () => {
+  let component: ScrollWheelComponent;
+  let fixture: ComponentFixture<ScrollWheelComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ScrollWheelComponent]
+    });
+    fixture = TestBed.createComponent(ScrollWheelComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+
+=======================================
+File: src/app/scroll-wheel/scroll-wheel.component.ts
+=======================================
+import { Component, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-scroll-wheel',
+  templateUrl: './scroll-wheel.component.html',
+  styleUrls: ['./scroll-wheel.component.scss']
+})
+export class ScrollWheelComponent {
+  @Output() timeAdjustment = new EventEmitter<number>();
+
+  currentOffset: number = 0;  // Start at 0hr
+
+  adjustHour(offset: number) {
+    this.currentOffset += offset;
+    this.timeAdjustment.emit(this.currentOffset);
+  }
+}
+
+
+
+=======================================
+File: src/app/app.component.scss
+=======================================
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.add-clock-container {
+  margin-bottom: 20px; /* Adjust the space between the button and the clocks */
+}
+
+.add-clock-button {
+  font-size: 2em; /* Make the button text size similar to clock size */
+  padding: 20px 40px; /* Increase padding to make the button larger */
+  background-color: #ffcc00; /* Same as scroll-wheel button for consistency */
+  border: none;
+  border-radius: 8px;
+  color: black;
+  cursor: pointer;
+}
+
+.add-clock-button:hover {
+  background-color: #e6b800;
+}
+
+.clocks-and-wheel {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.clocks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.clock-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+=======================================
+File: src/app/app.component.spec.ts
+=======================================
+import { TestBed } from '@angular/core/testing';
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [AppComponent]
+  }));
+
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it(`should have as title 'timezones'`, () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.title).toEqual('timezones');
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.content span')?.textContent).toContain('timezones app is running!');
+  });
+});
+
+
+
+=======================================
+File: src/app/app.module.ts
+=======================================
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
+import { AppComponent } from './app.component';
+import { ClockComponent } from './clock/clock.component';
+import { ScrollWheelComponent } from './scroll-wheel/scroll-wheel.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ClockComponent,
+    ScrollWheelComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+=======================================
+File: src/app/app.component.ts
+=======================================
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  title = 'timezones';
+  clocks: Array<{ city: string, timezone: string }> = [
+    { city: 'New York', timezone: 'America/New_York' },
+    { city: 'Houston', timezone: 'America/Chicago' },
+    { city: 'Los Angeles', timezone: 'America/Los_Angeles' },
+    { city: 'Seoul', timezone: 'Asia/Seoul' }
+  ];
+  timeOffset = 0;
+
+  addClock() {
+    this.clocks.push({ city: '', timezone: '' });
+  }
+
+  removeClock(index: number) {
+    this.clocks.splice(index, 1);
+  }
+
+  adjustTime(hours: number) {
+    this.timeOffset = hours;
+  }
+
+  roundClocksToNearestHour() {
+    const currentDate = new Date();
+    const minutes = currentDate.getMinutes();
+    
+    if (minutes >= 30) {
+      this.timeOffset += 1;
+    }
+
+    this.timeOffset = Math.floor(this.timeOffset);  // Ensure timeOffset is an integer
+    this.adjustTime(this.timeOffset);
+  }
+}
+
+
+
+=======================================
+File: src/app/clock/clock.component.html
+=======================================
+<div class="clock-container">
+  <div class="date-display">{{ formattedDate }}</div>
+  <div class="clock">{{ time }}</div>
+  <input [(ngModel)]="city" placeholder="Enter city" (change)="updateCityAndTimezone(city)" />
+  <button (click)="removeClock()">Remove</button>
+</div>
+
+
+
+=======================================
+File: src/app/clock/clock.component.ts
+=======================================
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+
+@Component({
+  selector: 'app-clock',
+  templateUrl: './clock.component.html',
+  styleUrls: ['./clock.component.scss']
+})
+export class ClockComponent implements OnInit, OnChanges {
+  @Input() city: string = '';
+  @Input() timezone: string = '';
+  @Input() timeOffset: number = 0;  // This is the offset from the simulated "current time"
+  @Output() remove = new EventEmitter<void>();
+
+  time: string = '';
+  formattedDate: string = '';
+  private intervalId: any;
+  private hourAdjusted: boolean = false;  // Flag to track if the hour has been adjusted
+
+  private cityTimezones: { [key: string]: string } = {
+    tokyo: 'Asia/Tokyo',
+    delhi: 'Asia/Kolkata',
+    shanghai: 'Asia/Shanghai',
+    saopaulo: 'America/Sao_Paulo',
+    mexicocity: 'America/Mexico_City',
+    cairo: 'Africa/Cairo',
+    mumbai: 'Asia/Kolkata',
+    beijing: 'Asia/Shanghai',
+    dhaka: 'Asia/Dhaka',
+    osaka: 'Asia/Tokyo',
+    newyork: 'America/New_York',
+    karachi: 'Asia/Karachi',
+    buenosaires: 'America/Argentina/Buenos_Aires',
+    chongqing: 'Asia/Shanghai',
+    istanbul: 'Europe/Istanbul',
+    kolkata: 'Asia/Kolkata',
+    lagos: 'Africa/Lagos',
+    kinshasa: 'Africa/Kinshasa',
+    manila: 'Asia/Manila',
+    riodejaneiro: 'America/Sao_Paulo',
+    guangzhou: 'Asia/Shanghai',
+    losangeles: 'America/Los_Angeles',
+    moscow: 'Europe/Moscow',
+    shenzhen: 'Asia/Shanghai',
+    lahore: 'Asia/Karachi',
+    bangalore: 'Asia/Kolkata',
+    paris: 'Europe/Paris',
+    bogota: 'America/Bogota',
+    jakarta: 'Asia/Jakarta',
+    chennai: 'Asia/Kolkata',
+    lima: 'America/Lima',
+    bangkok: 'Asia/Bangkok',
+    hyderabad: 'Asia/Kolkata',
+    london: 'Europe/London',
+    tehran: 'Asia/Tehran',
+    chicago: 'America/Chicago',
+    chengdu: 'Asia/Shanghai',
+    nagoya: 'Asia/Tokyo',
+    hochiminhcity: 'Asia/Ho_Chi_Minh',
+    wuhan: 'Asia/Shanghai',
+    hongkong: 'Asia/Hong_Kong',
+    taipei: 'Asia/Taipei',
+    kualalumpur: 'Asia/Kuala_Lumpur',
+    hangzhou: 'Asia/Shanghai',
+    rio: 'America/Sao_Paulo',
+    houston: 'America/Chicago',
+    seoul: 'Asia/Seoul',
+    berlin: 'Europe/Berlin',
+    toronto: 'America/Toronto',
+    santiago: 'America/Santiago',
+    madrid: 'Europe/Madrid',
+    singapore: 'Asia/Singapore',
+    yangon: 'Asia/Yangon',
+    alexandria: 'Africa/Cairo',
+    kiev: 'Europe/Kiev',
+    baghdad: 'Asia/Baghdad',
+    riyadh: 'Asia/Riyadh',
+    saintpetersburg: 'Europe/Moscow',
+    sydney: 'Australia/Sydney',
+    suzhou: 'Asia/Shanghai',
+    johannesburg: 'Africa/Johannesburg'
+  };
+
+  ngOnInit(): void {
+    this.updateTime();
+    this.startClock();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['timeOffset'] && !changes['timeOffset'].isFirstChange()) {
+      clearInterval(this.intervalId);  // Stop the clock from updating every second
+      this.hourAdjusted = true;  // Mark that an adjustment has been made
+      this.updateTime(true);  // Lock the time after adjusting the hour
+    }
+  }
+
+  private startClock() {
+    this.intervalId = setInterval(() => {
+      this.updateTime();
+    }, 1000);
+  }
+  
+  updateTime(lockToHour: boolean = false) {
+    let now = new Date();
+    
+    // Apply the time offset
+    now.setHours(now.getHours() + this.timeOffset);
+
+    if (this.hourAdjusted) {
+      // After hour adjustment, set minutes to 00
+      now.setMinutes(0, 0, 0);
+    }
+
+    const timeOptions: Intl.DateTimeFormatOptions = { 
+      timeZone: this.timezone, 
+      hour: '2-digit', 
+      minute: '2-digit'
+    };
+
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      timeZone: this.timezone,
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric'
+    };
+    
+    this.time = now.toLocaleTimeString('en-US', timeOptions);
+
+    // Get the date formatted as "Tuesday May 6th"
+    const day = now.toLocaleDateString('en-US', { weekday: 'long', timeZone: this.timezone });
+    const month = now.toLocaleDateString('en-US', { month: 'long', timeZone: this.timezone });
+    const date = now.getDate();
+    const suffix = this.getDateSuffix(date);
+
+    this.formattedDate = `${day} ${month} ${date}${suffix}`;
+  }
+
+
+  private getDateSuffix(date: number): string {
+    if (date >= 11 && date <= 13) {
+      return 'th';
+    }
+    switch (date % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  }
+
+  updateCityAndTimezone(city: string) {
+    this.city = city.trim();  // Trim any extra spaces
+
+    // Replace spaces with proper capitalization for matching
+    const formattedCity = city.toLowerCase().replace(/\s+/g, '');
+    this.timezone = this.cityTimezones[formattedCity] || '';
+
+    if (this.timezone) {
+      this.updateTime();  // Update the clock with the new timezone
+    } else {
+      console.warn(`Timezone not found for city: ${city}`);
+    }
+  }
+
+  removeClock() {
+    this.remove.emit();
+  }
+}
+
+
+
+=======================================
+File: src/app/clock/clock.component.scss
+=======================================
+.clock-container {
+  display: flex;
+  justify-content: center; /* Centers the clock content horizontally */
+  align-items: center; /* Centers the clock content vertically */
+  width: auto; /* Allow clocks to adjust their width automatically */
+}
+
+.date-display {
+  font-size: 1.5em; /* Make the date text larger */
+  color: #555; /* Adjust color as needed */
+  margin-right: 20px; /* Space between date and clock */
+}
+
+.clock {
+  font-family: 'Arial', sans-serif;
+  font-size: 2em;
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-right: 10px;
+}
+
+input {
+  font-size: 1.5em; /* Increase the text size inside the input */
+  padding: 10px 15px; /* Increase the padding for larger input boxes */
+  border-radius: 8px;
+  border: 2px solid #ccc; /* Slightly thicker border for emphasis */
+  width: 300px; /* Increase the width of the input box */
+}
+
+input:focus {
+  border-color: #666; /* Change border color when focused */
+  outline: none; /* Remove the default outline */
+}
+
+button {
+  background-color: #ffcc00; 
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+button:hover {
+  background-color: #e6b800;
+}
+
+
+
+=======================================
+File: src/app/clock/clock.component.spec.ts
+=======================================
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ClockComponent } from './clock.component';
+
+describe('ClockComponent', () => {
+  let component: ClockComponent;
+  let fixture: ComponentFixture<ClockComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ClockComponent]
+    });
+    fixture = TestBed.createComponent(ClockComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+
+

@@ -1,0 +1,46 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.add-clock-container {
+  margin-bottom: 20px; /* Adjust the space between the button and the clocks */
+}
+
+.add-clock-button {
+  font-size: 2em; /* Make the button text size similar to clock size */
+  padding: 20px 40px; /* Increase padding to make the button larger */
+  background-color: #ffcc00; /* Same as scroll-wheel button for consistency */
+  border: none;
+  border-radius: 8px;
+  color: black;
+  cursor: pointer;
+}
+
+.add-clock-button:hover {
+  background-color: #e6b800;
+}
+
+.clocks-and-wheel {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.clocks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.clock-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}

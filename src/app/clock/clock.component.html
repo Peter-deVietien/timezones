@@ -1,0 +1,8 @@
+<div class="clock-container">
+  <div class="date-display">{{ formattedDate }}</div>
+  <div class="clock-info">
+    <div class="clock">{{ time }}</div>
+    <input [(ngModel)]="city" placeholder="Enter city" (change)="updateCityAndTimezone(city)" />
+    <button (click)="removeClock()">Remove</button>
+  </div>
+</div>

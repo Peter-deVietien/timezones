@@ -1,0 +1,13 @@
+<div class="app-container">
+  <div class="add-clock-container">
+    <button class="add-clock-button" (click)="addClock()">+ Add Clock</button>
+  </div>
+  <div class="clocks-and-wheel">
+    <div class="clocks-container">
+      <div *ngFor="let clock of clocks; let i = index" class="clock-item">
+        <app-clock [city]="clock.city" [timezone]="clock.timezone" [timeOffset]="timeOffset" (remove)="removeClock(i)"></app-clock>
+      </div>
+    </div>
+    <app-scroll-wheel (timeAdjustment)="adjustTime($event)"></app-scroll-wheel>
+  </div>
+</div>
