@@ -16,7 +16,7 @@ tell application "Terminal"
     set originalWindow to front window
 
     -- First tab
-    do script "cd /Users/peter/projects/timezones && ng serve"
+    do script "cd /Users/peter/timezones && ng serve"
 
     -- Close the original window
     close originalWindow

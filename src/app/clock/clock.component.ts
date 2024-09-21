@@ -22,6 +22,12 @@ export class ClockComponent implements OnInit, OnChanges {
     shanghai: 'Asia/Shanghai',
     saopaulo: 'America/Sao_Paulo',
     mexicocity: 'America/Mexico_City',
+    denver: 'America/Denver',
+    phoenix: 'America/Phoenix',
+    saltlakecity: 'America/Denver',
+    calgary: 'America/Edmonton',
+    albuquerque: 'America/Denver',
+    elpaso: 'America/Denver',
     cairo: 'Africa/Cairo',
     mumbai: 'Asia/Kolkata',
     beijing: 'Asia/Shanghai',
@@ -101,36 +107,36 @@ export class ClockComponent implements OnInit, OnChanges {
   
   updateTime(lockToHour: boolean = false) {
     let now = new Date();
-    
+  
     // Apply the time offset
     now.setHours(now.getHours() + this.timeOffset);
-
+  
     if (this.hourAdjusted) {
       // After hour adjustment, set minutes to 00
       now.setMinutes(0, 0, 0);
     }
-
+  
     const timeOptions: Intl.DateTimeFormatOptions = { 
       timeZone: this.timezone, 
       hour: '2-digit', 
       minute: '2-digit'
     };
-
+  
     const dateOptions: Intl.DateTimeFormatOptions = {
       timeZone: this.timezone,
       weekday: 'long',
       month: 'long',
       day: 'numeric'
     };
-    
+  
     this.time = now.toLocaleTimeString('en-US', timeOptions);
-
-    // Get the date formatted as "Tuesday May 6th"
+  
+    // Handle date change correctly across timezones
     const day = now.toLocaleDateString('en-US', { weekday: 'long', timeZone: this.timezone });
     const month = now.toLocaleDateString('en-US', { month: 'long', timeZone: this.timezone });
-    const date = now.getDate();
-    const suffix = this.getDateSuffix(date);
-
+    const date = new Date().toLocaleDateString('en-US', { day: 'numeric', timeZone: this.timezone });
+    const suffix = this.getDateSuffix(+date);
+  
     this.formattedDate = `${day} ${month} ${date}${suffix}`;
   }
 
