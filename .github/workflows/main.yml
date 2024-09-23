@@ -1,3 +1,4 @@
+name: Build and Deploy Angular App
 
 on:
   push:
@@ -9,23 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '20'
+        node-version: '20'  # Use Node 20 LTS
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Build Angular app
-      run: npm run build --prod
+      run: npm run build --if-present --configuration production
 
-    - name: Deploy to Azure
+    - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'timezones0'
-        slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-
 
