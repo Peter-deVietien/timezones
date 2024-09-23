@@ -30,3 +30,4 @@ jobs:
         app-name: 'timezones0'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
 
+
