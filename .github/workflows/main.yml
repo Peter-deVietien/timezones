@@ -25,7 +25,7 @@ jobs:
       run: npm ci  # Clean install dependencies
 
     - name: Build Angular app
-      run: npm run build --configuration production  # Build Angular app for production
+      run: npm run build -- --configuration production  # Build Angular app for production
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
