@@ -11,24 +11,24 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3  # Ensure we're using the latest checkout action
 
     - name: Set up Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3  # Ensure we're using the latest version of setup-node
       with:
-        node-version: '20'  # Use Node 20 LTS
+        node-version: '20'  # Explicitly set to Node 20 LTS
+
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
 
     - name: Install dependencies
-      run: npm ci
+      run: npm ci  # Clean install dependencies
 
     - name: Build Angular app
-      run: npm run build --if-present --configuration production
+      run: npm run build --configuration production  # Build Angular app for production
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'timezones0'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-
-
-
