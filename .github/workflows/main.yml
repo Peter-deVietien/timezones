@@ -27,6 +27,11 @@ jobs:
     - name: Build Angular app
       run: npm run build -- --configuration production  # Build Angular app for production
 
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
