@@ -13,8 +13,6 @@ export class ClockComponent implements OnInit, OnChanges {
 
   time: string = '';
   formattedDate: string = '';
-  private intervalId: any;
-  private hourAdjusted: boolean = false;  // Flag to track if the hour has been adjusted
 
   private cityTimezones: { [key: string]: string } = {
     tokyo: 'Asia/Tokyo',
@@ -88,56 +86,74 @@ export class ClockComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.updateTime();
-    this.startClock();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['timeOffset'] && !changes['timeOffset'].isFirstChange()) {
-      clearInterval(this.intervalId);  // Stop the clock from updating every second
-      this.hourAdjusted = true;  // Mark that an adjustment has been made
-      this.updateTime(true);  // Lock the time after adjusting the hour
-    }
-  }
-
-  private startClock() {
-    this.intervalId = setInterval(() => {
+    if (changes['timeOffset'] || changes['timezone']) {
       this.updateTime();
-    }, 1000);
+    }
   }
   
-  updateTime(lockToHour: boolean = false) {
-    let now = new Date();
-  
-    // Apply the time offset
-    now.setHours(now.getHours() + this.timeOffset);
-  
-    if (this.hourAdjusted) {
-      // After hour adjustment, set minutes to 00
-      now.setMinutes(0, 0, 0);
+  updateTime() {
+    if (!this.timezone) {
+      this.time = '--:--';
+      this.formattedDate = 'Enter a city';
+      return;
     }
+
+    // Create a base time where New York shows 12:00 PM (noon)
+    // We'll use today's date for reference
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const day = today.getDate();
+    
+    // Create a string representing today at noon in ISO format (local)
+    // Then interpret it as being in the New York timezone
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    
+    // Parse this as noon in New York time and convert to UTC
+    // We create a date that when formatted in NY timezone shows 12:00 PM
+    // October 11, 2025: NY is in EDT (UTC-4), so 12:00 PM EDT = 16:00 UTC
+    // We need to determine the UTC hour dynamically
+    
+    // Create reference: what UTC time shows as noon in NY?
+    // Test by creating dates and checking
+    const testDateUTC = new Date(`${dateStr}T16:00:00Z`); // Try 16:00 UTC (EDT guess)
+    const nyTimeStr = testDateUTC.toLocaleString('en-US', { 
+      timeZone: 'America/New_York', 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false 
+    });
+    
+    // If it's not 12:00, adjust
+    let utcHour = 16;
+    if (nyTimeStr.startsWith('13:')) utcHour = 17; // was 1PM, so EST (UTC-5)
+    else if (nyTimeStr.startsWith('11:')) utcHour = 15; // was 11AM, adjust up
+    
+    // Create the base time with correct UTC hour for NY noon
+    const baseTime = new Date(`${dateStr}T${String(utcHour).padStart(2, '0')}:00:00Z`);
+    
+    // Apply the user's time offset (from scroll wheel)
+    baseTime.setUTCHours(baseTime.getUTCHours() + this.timeOffset);
   
     const timeOptions: Intl.DateTimeFormatOptions = { 
       timeZone: this.timezone, 
-      hour: '2-digit', 
-      minute: '2-digit'
+      hour: 'numeric', 
+      minute: '2-digit',
+      hour12: true
     };
   
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      timeZone: this.timezone,
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric'
-    };
-  
-    this.time = now.toLocaleTimeString('en-US', timeOptions);
+    this.time = baseTime.toLocaleTimeString('en-US', timeOptions);
   
     // Handle date change correctly across timezones
-    const day = now.toLocaleDateString('en-US', { weekday: 'long', timeZone: this.timezone });
-    const month = now.toLocaleDateString('en-US', { month: 'long', timeZone: this.timezone });
-    const date = new Date().toLocaleDateString('en-US', { day: 'numeric', timeZone: this.timezone });
-    const suffix = this.getDateSuffix(+date);
+    const day2 = baseTime.toLocaleDateString('en-US', { weekday: 'long', timeZone: this.timezone });
+    const month2 = baseTime.toLocaleDateString('en-US', { month: 'long', timeZone: this.timezone });
+    const date2 = baseTime.toLocaleDateString('en-US', { day: 'numeric', timeZone: this.timezone });
+    const suffix = this.getDateSuffix(+date2);
   
-    this.formattedDate = `${day} ${month} ${date}${suffix}`;
+    this.formattedDate = `${day2} ${month2} ${date2}${suffix}`;
   }
 
 

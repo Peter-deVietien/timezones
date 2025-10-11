@@ -11,7 +11,7 @@ export class AppComponent {
     { city: 'New York', timezone: 'America/New_York' },
     { city: 'Houston', timezone: 'America/Chicago' },
     { city: 'Los Angeles', timezone: 'America/Los_Angeles' },
-    { city: 'Beijing', timezone: 'Asia/Beijing' }
+    { city: 'Beijing', timezone: 'Asia/Shanghai' }
   ];
   timeOffset = 0;
 
@@ -25,17 +25,5 @@ export class AppComponent {
 
   adjustTime(hours: number) {
     this.timeOffset = hours;
-  }
-
-  roundClocksToNearestHour() {
-    const currentDate = new Date();
-    const minutes = currentDate.getMinutes();
-    
-    if (minutes >= 30) {
-      this.timeOffset += 1;
-    }
-
-    this.timeOffset = Math.floor(this.timeOffset);  // Ensure timeOffset is an integer
-    this.adjustTime(this.timeOffset);
   }
 }
