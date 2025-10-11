@@ -1,0 +1,89 @@
+name: Build & Deploy Angular to EC2
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  # Node LTS for Angular (adjust if your project needs a different version)
+  NODE_VERSION: '20'
+
+  # From repository secrets created earlier
+  EC2_HOST: ${{ secrets.EC2_HOST }}
+  EC2_USER: ${{ secrets.EC2_USER }}
+  SSH_PORT: ${{ secrets.SSH_PORT }}
+  TARGET_DIR: ${{ secrets.TARGET_DIR }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      - name: Build Angular app (production)
+        run: |
+          # Uses your package.json "build" script if present; passes prod config for Angular CLI
+          npm run --if-present build -- --configuration=production
+
+      - name: Resolve dist path
+        run: |
+          set -e
+          if [ -d "dist" ]; then
+            FIRST=$(ls -d dist/* 2>/dev/null | head -n 1 || true)
+            if [ -n "$FIRST" ]; then
+              echo "DIST_DIR=$FIRST" >> "$GITHUB_ENV"
+            else
+              echo "DIST_DIR=dist" >> "$GITHUB_ENV"
+            fi
+          else
+            echo "No 'dist' directory found; check your build step." >&2
+            exit 1
+          fi
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.CI_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Use provided known_hosts if you stored one; otherwise fetch from the host
+          if [ -n "${{ secrets.SSH_KNOWN_HOSTS }}" ]; then
+            echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          else
+            ssh-keyscan -p "$SSH_PORT" -H "$EC2_HOST" >> ~/.ssh/known_hosts
+          fi
+
+      - name: Create target directory on server
+        run: |
+          ssh -i ~/.ssh/id_rsa -p "$SSH_PORT" -o StrictHostKeyChecking=yes \
+            "$EC2_USER@$EC2_HOST" "mkdir -p '$TARGET_DIR'"
+
+      - name: Deploy via rsync
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ~/.ssh/id_rsa -p $SSH_PORT -o StrictHostKeyChecking=yes" \
+            "$DIST_DIR"/ "$EC2_USER@$EC2_HOST:$TARGET_DIR/"
+
+      # - name: (Optional) Reload web server
+      #   run: |
+      #     ssh -i ~/.ssh/id_rsa -p "$SSH_PORT" -o StrictHostKeyChecking=yes \
+      #       "$EC2_USER@$EC2_HOST" "sudo systemctl reload nginx || true"

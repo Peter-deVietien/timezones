@@ -11,7 +11,7 @@ export class AppComponent {
     { city: 'New York', timezone: 'America/New_York' },
     { city: 'Houston', timezone: 'America/Chicago' },
     { city: 'Los Angeles', timezone: 'America/Los_Angeles' },
-    { city: 'Seoul', timezone: 'Asia/Seoul' }
+    { city: 'Beijing', timezone: 'Asia/Beijing' }
   ];
   timeOffset = 0;
 
