@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "$HOME/.config/chistory/.env"
-# REGION
-source "$HOME/.config/chistory/.env.local"
+source "$HOME/.config/timezones/.env.local"
 # PUBLIC_IP
 
-DOMAIN="communisthistory.com"                # your domain at GoDaddy # from developer.godaddy.com (Production)
+DOMAIN="timezones.ai"                # your domain at GoDaddy # from developer.godaddy.com (Production)
 TTL=600                             # seconds; 600 is fine
 
 GODADDY_KEY=$(aws ssm get-parameter --name "/dns/godaddy/key" --with-decryption --query 'Parameter.Value' --output text)

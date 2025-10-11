@@ -17,12 +17,12 @@ commands=(
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name communisthistory.com www.communisthistory.com;
-    root /var/www/angular-app/browser;
-    index index.csr.html index.html;
+    server_name timezones.com www.timezones.com;
+    root /var/www/angular-app;
+    index index.html;
 
     location / {
-        try_files \$uri \$uri/ /index.csr.html;
+        try_files \$uri \$uri/ /index.html;
     }
 }
 CONF"

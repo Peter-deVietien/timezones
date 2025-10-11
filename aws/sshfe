@@ -1,2 +1,2 @@
-source ~/.config/chistory/.env.local
+source ~/.config/timezones/.env.local
 ssh -i "$FE_KEY_PATH" "$EC2_USER@$PUBLIC_IP"
