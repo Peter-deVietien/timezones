@@ -2,6 +2,9 @@
   <div class="add-clock-container">
     <button class="add-clock-button" (click)="addClock()">+ Add Clock</button>
   </div>
+  
+  <!-- Static Clocks Section -->
+  <div class="section-title">Time Comparison (New York @ 12:00 PM)</div>
   <div class="clocks-and-wheel">
     <div class="clocks-container">
       <div *ngFor="let clock of clocks; let i = index" class="clock-item">
@@ -9,5 +12,16 @@
       </div>
     </div>
     <app-scroll-wheel (timeAdjustment)="adjustTime($event)"></app-scroll-wheel>
+  </div>
+
+  <!-- Divider -->
+  <div class="divider"></div>
+
+  <!-- Live Clocks Section -->
+  <div class="section-title">Current Time</div>
+  <div class="live-clocks-container">
+    <div *ngFor="let clock of clocks" class="clock-item">
+      <app-live-clock [city]="clock.city" [timezone]="clock.timezone"></app-live-clock>
+    </div>
   </div>
 </div>

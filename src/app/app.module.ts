@@ -5,12 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { ClockComponent } from './clock/clock.component';
 import { ScrollWheelComponent } from './scroll-wheel/scroll-wheel.component';
+import { LiveClockComponent } from './live-clock/live-clock.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClockComponent,
-    ScrollWheelComponent
+    ScrollWheelComponent,
+    LiveClockComponent
   ],
   imports: [
     BrowserModule,

@@ -2,19 +2,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  justify-content: flex-start;
+  min-height: 100vh;
   text-align: center;
+  padding: 20px;
 }
 
 .add-clock-container {
-  margin-bottom: 20px; /* Adjust the space between the button and the clocks */
+  margin-bottom: 20px;
 }
 
 .add-clock-button {
-  font-size: 2em; /* Make the button text size similar to clock size */
-  padding: 20px 40px; /* Increase padding to make the button larger */
-  background-color: #ffcc00; /* Same as scroll-wheel button for consistency */
+  font-size: 2em;
+  padding: 20px 40px;
+  background-color: #ffcc00;
   border: none;
   border-radius: 8px;
   color: black;
@@ -23,6 +24,13 @@
 
 .add-clock-button:hover {
   background-color: #e6b800;
+}
+
+.section-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #333;
+  margin: 20px 0 15px 0;
 }
 
 .clocks-and-wheel {
@@ -39,8 +47,23 @@
   gap: 15px;
 }
 
+.live-clocks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+}
+
 .clock-item {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.divider {
+  width: 80%;
+  height: 3px;
+  background: linear-gradient(to right, transparent, #ccc, transparent);
+  margin: 40px 0;
 }
