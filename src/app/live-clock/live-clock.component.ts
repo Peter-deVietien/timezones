@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-live-clock',
   templateUrl: './live-clock.component.html',
   styleUrls: ['./live-clock.component.scss']
 })
-export class LiveClockComponent implements OnInit, OnDestroy {
+export class LiveClockComponent implements OnInit, OnDestroy, OnChanges {
   @Input() city: string = '';
   @Input() timezone: string = '';
 
@@ -16,6 +16,13 @@ export class LiveClockComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.updateTime();
     this.startClock();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // React immediately when city or timezone changes
+    if (changes['city'] || changes['timezone']) {
+      this.updateTime();
+    }
   }
 
   ngOnDestroy(): void {
@@ -32,6 +39,9 @@ export class LiveClockComponent implements OnInit, OnDestroy {
   
   updateTime() {
     if (!this.timezone) {
+      // Handle empty state gracefully
+      this.time = '--:--:--';
+      this.formattedDate = 'Enter a city above';
       return;
     }
 
