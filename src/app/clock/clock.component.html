@@ -2,7 +2,25 @@
   <div class="date-display">{{ formattedDate }}</div>
   <div class="clock-info">
     <div class="clock">{{ time }}</div>
-    <input [(ngModel)]="city" placeholder="Enter city" (change)="updateCityAndTimezone(city)" />
+    <div class="input-wrapper">
+      <input 
+        [(ngModel)]="city" 
+        placeholder="Enter city" 
+        (input)="onCityInput(city)"
+        (blur)="hideSuggestions()"
+        (focus)="onCityInput(city)"
+        autocomplete="off"
+      />
+      <div class="suggestions-dropdown" *ngIf="showSuggestions">
+        <div 
+          class="suggestion-item" 
+          *ngFor="let suggestion of suggestions"
+          (mousedown)="selectCity(suggestion)"
+        >
+          {{ suggestion }}
+        </div>
+      </div>
+    </div>
     <button (click)="removeClock()">Remove</button>
   </div>
 </div>

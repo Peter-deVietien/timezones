@@ -15,75 +15,243 @@ export class ClockComponent implements OnInit, OnChanges {
 
   time: string = '';
   formattedDate: string = '';
+  suggestions: string[] = [];
+  showSuggestions: boolean = false;
 
   private cityTimezones: { [key: string]: string } = {
-    tokyo: 'Asia/Tokyo',
-    delhi: 'Asia/Kolkata',
-    shanghai: 'Asia/Shanghai',
-    saopaulo: 'America/Sao_Paulo',
-    mexicocity: 'America/Mexico_City',
-    denver: 'America/Denver',
-    phoenix: 'America/Phoenix',
-    saltlakecity: 'America/Denver',
-    calgary: 'America/Edmonton',
-    albuquerque: 'America/Denver',
-    elpaso: 'America/Denver',
-    cairo: 'Africa/Cairo',
-    mumbai: 'Asia/Kolkata',
-    beijing: 'Asia/Shanghai',
-    dhaka: 'Asia/Dhaka',
-    osaka: 'Asia/Tokyo',
+    // North America - US
     newyork: 'America/New_York',
-    karachi: 'Asia/Karachi',
+    losangeles: 'America/Los_Angeles',
+    chicago: 'America/Chicago',
+    houston: 'America/Chicago',
+    phoenix: 'America/Phoenix',
+    philadelphia: 'America/New_York',
+    sanantonio: 'America/Chicago',
+    sandiego: 'America/Los_Angeles',
+    dallas: 'America/Chicago',
+    sanjose: 'America/Los_Angeles',
+    austin: 'America/Chicago',
+    jacksonville: 'America/New_York',
+    fortworth: 'America/Chicago',
+    columbus: 'America/New_York',
+    charlotte: 'America/New_York',
+    sanfrancisco: 'America/Los_Angeles',
+    indianapolis: 'America/Indiana/Indianapolis',
+    seattle: 'America/Los_Angeles',
+    denver: 'America/Denver',
+    washington: 'America/New_York',
+    boston: 'America/New_York',
+    elpaso: 'America/Denver',
+    nashville: 'America/Chicago',
+    detroit: 'America/Detroit',
+    portland: 'America/Los_Angeles',
+    lasvegas: 'America/Los_Angeles',
+    memphis: 'America/Chicago',
+    baltimore: 'America/New_York',
+    milwaukee: 'America/Chicago',
+    albuquerque: 'America/Denver',
+    tucson: 'America/Phoenix',
+    fresno: 'America/Los_Angeles',
+    mesa: 'America/Phoenix',
+    sacramento: 'America/Los_Angeles',
+    atlanta: 'America/New_York',
+    kansascity: 'America/Chicago',
+    miami: 'America/New_York',
+    raleigh: 'America/New_York',
+    omaha: 'America/Chicago',
+    minneapolis: 'America/Chicago',
+    tulsa: 'America/Chicago',
+    cleveland: 'America/New_York',
+    neworleans: 'America/Chicago',
+    
+    // North America - Canada
+    toronto: 'America/Toronto',
+    montreal: 'America/Toronto',
+    vancouver: 'America/Vancouver',
+    calgary: 'America/Edmonton',
+    edmonton: 'America/Edmonton',
+    ottawa: 'America/Toronto',
+    winnipeg: 'America/Winnipeg',
+    quebec: 'America/Toronto',
+    hamilton: 'America/Toronto',
+    halifax: 'America/Halifax',
+    
+    // North America - Mexico
+    mexicocity: 'America/Mexico_City',
+    guadalajara: 'America/Mexico_City',
+    monterrey: 'America/Monterrey',
+    puebla: 'America/Mexico_City',
+    tijuana: 'America/Tijuana',
+    cancun: 'America/Cancun',
+    
+    // Central America
+    guatemala: 'America/Guatemala',
+    sanjosecr: 'America/Costa_Rica',
+    costarica: 'America/Costa_Rica',
+    panama: 'America/Panama',
+    sansalvador: 'America/El_Salvador',
+    managua: 'America/Managua',
+    
+    // Caribbean
+    havana: 'America/Havana',
+    kingston: 'America/Jamaica',
+    sanjuan: 'America/Puerto_Rico',
+    
+    // South America
+    saopaulo: 'America/Sao_Paulo',
     buenosaires: 'America/Argentina/Buenos_Aires',
-    chongqing: 'Asia/Shanghai',
+    riodejaneiro: 'America/Sao_Paulo',
+    lima: 'America/Lima',
+    bogota: 'America/Bogota',
+    santiago: 'America/Santiago',
+    caracas: 'America/Caracas',
+    brasilia: 'America/Sao_Paulo',
+    quito: 'America/Guayaquil',
+    montevideo: 'America/Montevideo',
+    asuncion: 'America/Asuncion',
+    lapaz: 'America/La_Paz',
+    
+    // Europe - Western
+    london: 'Europe/London',
+    paris: 'Europe/Paris',
+    madrid: 'Europe/Madrid',
+    barcelona: 'Europe/Madrid',
+    lisbon: 'Europe/Lisbon',
+    dublin: 'Europe/Dublin',
+    brussels: 'Europe/Brussels',
+    amsterdam: 'Europe/Amsterdam',
+    
+    // Europe - Central
+    berlin: 'Europe/Berlin',
+    rome: 'Europe/Rome',
+    vienna: 'Europe/Vienna',
+    zurich: 'Europe/Zurich',
+    prague: 'Europe/Prague',
+    budapest: 'Europe/Budapest',
+    warsaw: 'Europe/Warsaw',
+    munich: 'Europe/Berlin',
+    milan: 'Europe/Rome',
+    hamburg: 'Europe/Berlin',
+    copenhagen: 'Europe/Copenhagen',
+    stockholm: 'Europe/Stockholm',
+    oslo: 'Europe/Oslo',
+    
+    // Europe - Eastern
+    moscow: 'Europe/Moscow',
     istanbul: 'Europe/Istanbul',
-    kolkata: 'Asia/Kolkata',
+    kiev: 'Europe/Kiev',
+    bucharest: 'Europe/Bucharest',
+    athens: 'Europe/Athens',
+    helsinki: 'Europe/Helsinki',
+    saintpetersburg: 'Europe/Moscow',
+    sofia: 'Europe/Sofia',
+    minsk: 'Europe/Minsk',
+    
+    // Middle East
+    dubai: 'Asia/Dubai',
+    riyadh: 'Asia/Riyadh',
+    tehran: 'Asia/Tehran',
+    baghdad: 'Asia/Baghdad',
+    jerusalem: 'Asia/Jerusalem',
+    telaviv: 'Asia/Tel_Aviv',
+    beirut: 'Asia/Beirut',
+    damascus: 'Asia/Damascus',
+    doha: 'Asia/Qatar',
+    kuwait: 'Asia/Kuwait',
+    muscat: 'Asia/Muscat',
+    amman: 'Asia/Amman',
+    
+    // Africa
+    cairo: 'Africa/Cairo',
     lagos: 'Africa/Lagos',
     kinshasa: 'Africa/Kinshasa',
-    manila: 'Asia/Manila',
-    riodejaneiro: 'America/Sao_Paulo',
-    guangzhou: 'Asia/Shanghai',
-    losangeles: 'America/Los_Angeles',
-    moscow: 'Europe/Moscow',
-    shenzhen: 'Asia/Shanghai',
-    lahore: 'Asia/Karachi',
-    bangalore: 'Asia/Kolkata',
-    paris: 'Europe/Paris',
-    bogota: 'America/Bogota',
-    jakarta: 'Asia/Jakarta',
-    chennai: 'Asia/Kolkata',
-    lima: 'America/Lima',
-    bangkok: 'Asia/Bangkok',
-    hyderabad: 'Asia/Kolkata',
-    london: 'Europe/London',
-    tehran: 'Asia/Tehran',
-    chicago: 'America/Chicago',
-    chengdu: 'Asia/Shanghai',
-    nagoya: 'Asia/Tokyo',
-    hochiminhcity: 'Asia/Ho_Chi_Minh',
-    wuhan: 'Asia/Shanghai',
+    johannesburg: 'Africa/Johannesburg',
+    nairobi: 'Africa/Nairobi',
+    casablanca: 'Africa/Casablanca',
+    addisababa: 'Africa/Addis_Ababa',
+    accra: 'Africa/Accra',
+    daressalaam: 'Africa/Dar_es_Salaam',
+    capetown: 'Africa/Johannesburg',
+    tunis: 'Africa/Tunis',
+    algiers: 'Africa/Algiers',
+    alexandria: 'Africa/Cairo',
+    khartoum: 'Africa/Khartoum',
+    abidjan: 'Africa/Abidjan',
+    
+    // Asia - East
+    tokyo: 'Asia/Tokyo',
+    seoul: 'Asia/Seoul',
+    beijing: 'Asia/Shanghai',
+    shanghai: 'Asia/Shanghai',
     hongkong: 'Asia/Hong_Kong',
     taipei: 'Asia/Taipei',
-    kualalumpur: 'Asia/Kuala_Lumpur',
+    osaka: 'Asia/Tokyo',
+    guangzhou: 'Asia/Shanghai',
+    shenzhen: 'Asia/Shanghai',
+    chengdu: 'Asia/Shanghai',
+    chongqing: 'Asia/Shanghai',
+    tianjin: 'Asia/Shanghai',
+    wuhan: 'Asia/Shanghai',
     hangzhou: 'Asia/Shanghai',
-    rio: 'America/Sao_Paulo',
-    houston: 'America/Chicago',
-    seoul: 'Asia/Seoul',
-    berlin: 'Europe/Berlin',
-    toronto: 'America/Toronto',
-    santiago: 'America/Santiago',
-    madrid: 'Europe/Madrid',
+    nanjing: 'Asia/Shanghai',
+    nagoya: 'Asia/Tokyo',
+    sapporo: 'Asia/Tokyo',
+    fukuoka: 'Asia/Tokyo',
+    busan: 'Asia/Seoul',
+    
+    // Asia - South
+    delhi: 'Asia/Kolkata',
+    mumbai: 'Asia/Kolkata',
+    bangalore: 'Asia/Kolkata',
+    kolkata: 'Asia/Kolkata',
+    chennai: 'Asia/Kolkata',
+    hyderabad: 'Asia/Kolkata',
+    pune: 'Asia/Kolkata',
+    ahmedabad: 'Asia/Kolkata',
+    karachi: 'Asia/Karachi',
+    lahore: 'Asia/Karachi',
+    dhaka: 'Asia/Dhaka',
+    islamabad: 'Asia/Karachi',
+    kathmandu: 'Asia/Kathmandu',
+    colombo: 'Asia/Colombo',
+    
+    // Asia - Southeast
+    bangkok: 'Asia/Bangkok',
     singapore: 'Asia/Singapore',
+    jakarta: 'Asia/Jakarta',
+    manila: 'Asia/Manila',
+    hanoi: 'Asia/Bangkok',
+    hochiminhcity: 'Asia/Ho_Chi_Minh',
+    kualalumpur: 'Asia/Kuala_Lumpur',
     yangon: 'Asia/Yangon',
-    alexandria: 'Africa/Cairo',
-    kiev: 'Europe/Kiev',
-    baghdad: 'Asia/Baghdad',
-    riyadh: 'Asia/Riyadh',
-    saintpetersburg: 'Europe/Moscow',
+    phnompenh: 'Asia/Phnom_Penh',
+    vientiane: 'Asia/Vientiane',
+    
+    // Asia - Central
+    tashkent: 'Asia/Tashkent',
+    almaty: 'Asia/Almaty',
+    bishkek: 'Asia/Bishkek',
+    
+    // Oceania
     sydney: 'Australia/Sydney',
+    melbourne: 'Australia/Melbourne',
+    brisbane: 'Australia/Brisbane',
+    perth: 'Australia/Perth',
+    adelaide: 'Australia/Adelaide',
+    auckland: 'Pacific/Auckland',
+    wellington: 'Pacific/Auckland',
+    fiji: 'Pacific/Fiji',
+    
+    // Aliases and common variations
+    newyorkcity: 'America/New_York',
+    nyc: 'America/New_York',
+    la: 'America/Los_Angeles',
+    sf: 'America/Los_Angeles',
+    dc: 'America/New_York',
+    hk: 'Asia/Hong_Kong',
+    rio: 'America/Sao_Paulo',
     suzhou: 'Asia/Shanghai',
-    johannesburg: 'Africa/Johannesburg'
+    saltlakecity: 'America/Denver'
   };
 
   ngOnInit(): void {
@@ -171,6 +339,40 @@ export class ClockComponent implements OnInit, OnChanges {
     }
   }
 
+  onCityInput(city: string) {
+    this.city = city;
+    
+    if (!city || city.length < 1) {
+      this.suggestions = [];
+      this.showSuggestions = false;
+      return;
+    }
+
+    // Filter cities that start with the input
+    const searchTerm = city.toLowerCase().replace(/\s+/g, '');
+    this.suggestions = Object.keys(this.cityTimezones)
+      .filter(cityKey => cityKey.startsWith(searchTerm))
+      .map(cityKey => this.formatCityName(cityKey))
+      .slice(0, 10); // Limit to 10 suggestions
+    
+    this.showSuggestions = this.suggestions.length > 0;
+  }
+
+  selectCity(selectedCity: string) {
+    this.city = selectedCity;
+    this.showSuggestions = false;
+    this.updateCityAndTimezone(selectedCity);
+  }
+
+  formatCityName(cityKey: string): string {
+    // Convert city key back to a readable format
+    // Simple capitalization for display
+    return cityKey
+      .split(/(?=[A-Z])/)
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
   updateCityAndTimezone(city: string) {
     this.city = city.trim();  // Trim any extra spaces
 
@@ -187,6 +389,13 @@ export class ClockComponent implements OnInit, OnChanges {
     } else {
       console.warn(`Timezone not found for city: ${city}`);
     }
+  }
+
+  hideSuggestions() {
+    // Delay hiding to allow click events to register
+    setTimeout(() => {
+      this.showSuggestions = false;
+    }, 200);
   }
 
   removeClock() {
