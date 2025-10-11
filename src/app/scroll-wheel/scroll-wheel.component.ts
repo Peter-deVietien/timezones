@@ -14,4 +14,9 @@ export class ScrollWheelComponent {
     this.currentOffset += offset;
     this.timeAdjustment.emit(this.currentOffset);
   }
+
+  reset() {
+    this.currentOffset = 0;
+    this.timeAdjustment.emit(this.currentOffset);
+  }
 }

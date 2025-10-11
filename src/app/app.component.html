@@ -10,7 +10,10 @@
         <app-clock [city]="clock.city" [timezone]="clock.timezone" [timeOffset]="timeOffset" (remove)="removeClock(i)"></app-clock>
       </div>
     </div>
-    <app-scroll-wheel (timeAdjustment)="adjustTime($event)"></app-scroll-wheel>
+    <div class="scroll-wheel-wrapper">
+      <app-scroll-wheel (timeAdjustment)="adjustTime($event)" #scrollWheel></app-scroll-wheel>
+      <button class="reset-button" (click)="resetTime()">Reset</button>
+    </div>
   </div>
 
   <!-- Divider -->

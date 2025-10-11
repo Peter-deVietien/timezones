@@ -8,7 +8,7 @@
 .date-display {
   font-size: 1.5em;
   color: #555;
-  width: 300px;
+  width: 260px;  // Reduced from 300px
   text-align: right;
   padding-right: 20px;
   flex-shrink: 0;
@@ -28,7 +28,7 @@
   color: #fff;
   border-radius: 8px;
   padding: 10px 15px;
-  min-width: 220px;  // Increased to ensure "10:18:50 AM" fits on one line
+  min-width: 200px;  // Reduced from 220px
   margin-right: 10px;
   flex-shrink: 0;
   white-space: nowrap;  // Prevent wrapping
@@ -38,7 +38,7 @@
   font-size: 1.5em;
   padding: 10px 15px;
   color: #333;
-  width: 300px;
+  width: 240px;  // Reduced from 300px
   flex-shrink: 0;
 }
 

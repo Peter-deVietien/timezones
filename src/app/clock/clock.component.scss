@@ -8,7 +8,7 @@
 .date-display {
   font-size: 1.5em;
   color: #555;
-  width: 300px; // Fixed width for date display
+  width: 260px; // Reduced from 300px
   text-align: right;
   padding-right: 20px;
   flex-shrink: 0;
@@ -28,7 +28,7 @@
   color: #fff;
   border-radius: 8px;
   padding: 10px 15px;
-  min-width: 220px; // Increased to ensure "10:18:50 AM" fits on one line (matches live-clock)
+  min-width: 200px; // Reduced from 220px
   margin-right: 10px;
   flex-shrink: 0;
   white-space: nowrap;  // Prevent wrapping
@@ -39,7 +39,7 @@ input {
   padding: 10px 15px;
   border-radius: 8px;
   border: 2px solid #ccc;
-  width: 300px;
+  width: 240px;  // Reduced from 300px
   flex-shrink: 0;
 }
 
@@ -51,8 +51,10 @@ input:focus {
 button {
   background-color: #ffcc00; 
   border: none;
-  border-radius: 4px;
-  padding: 10px 15px;
+  border-radius: 6px;
+  padding: 14px 24px;  // Larger padding
+  font-size: 1.1em;  // Larger font
+  font-weight: 600;
   cursor: pointer;
   margin-left: 10px;
   flex-shrink: 0;

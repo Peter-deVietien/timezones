@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { ScrollWheelComponent } from './scroll-wheel/scroll-wheel.component';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  @ViewChild('scrollWheel') scrollWheel!: ScrollWheelComponent;
   title = 'timezones';
   clocks: Array<{ city: string, timezone: string }> = [
     { city: 'New York', timezone: 'America/New_York' },
@@ -25,5 +27,9 @@ export class AppComponent {
 
   adjustTime(hours: number) {
     this.timeOffset = hours;
+  }
+
+  resetTime() {
+    this.scrollWheel.reset();
   }
 }
