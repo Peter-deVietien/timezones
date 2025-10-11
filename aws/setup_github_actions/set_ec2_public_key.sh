@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "$HOME/.config/chistory/.env"
-# REGION
-source "$HOME/.config/chistory/.env.local"
-# CI_KEY_NAME, INSTANCE_ID
+source "$HOME/.config/timezones/.env.local"
 
 echo "[debug] PUBLIC_IP (EC2_HOST): $PUBLIC_IP"
 

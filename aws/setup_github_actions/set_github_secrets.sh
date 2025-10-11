@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source "$HOME/.config/chistory/.env"
-# REGION
-source "$HOME/.config/chistory/.env.local"
+source "$HOME/.config/timezones/.env.local"
 # CI_KEY_NAME, INSTANCE_ID
 
-REPO="communisthistory/communisthistory"
+REPO="Peter-deVietien/timezones"
 
 EC2_USER="ubuntu"                                              # e.g. ec2-user (Amazon Linux) or ubuntu (Ubuntu)
 SSH_PORT="22"
