@@ -17,6 +17,7 @@ export class ClockComponent implements OnInit, OnChanges {
   formattedDate: string = '';
   suggestions: string[] = [];
   showSuggestions: boolean = false;
+  timeAnimating: boolean = false;
 
   private cityTimezones: { [key: string]: string } = {
     // North America - US
@@ -259,7 +260,14 @@ export class ClockComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['timeOffset'] || changes['timezone']) {
+    if (changes['timeOffset']) {
+      // Trigger animation when time offset changes
+      this.timeAnimating = true;
+      setTimeout(() => {
+        this.timeAnimating = false;
+      }, 400);
+      this.updateTime();
+    } else if (changes['timezone']) {
       this.updateTime();
     }
   }

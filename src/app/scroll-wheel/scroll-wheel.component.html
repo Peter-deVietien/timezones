@@ -1,5 +1,5 @@
 <div class="hour-adjuster">
-  <button (click)="adjustHour(1)">+1 hr</button>
+  <button [class]="shimmerClass" (click)="adjustHour(1)">+1 hr</button>
   <div class="hour-display">{{ formattedOffset }} hr</div>
-  <button (click)="adjustHour(-1)">-1 hr</button>
+  <button [class]="shimmerClass" (click)="adjustHour(-1)">-1 hr</button>
 </div>

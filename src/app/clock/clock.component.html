@@ -1,7 +1,7 @@
 <div class="clock-container">
   <div class="date-display">{{ formattedDate }}</div>
   <div class="clock-info">
-    <div class="clock">{{ time }}</div>
+    <div class="clock" [class.time-update]="timeAnimating">{{ time }}</div>
     <div class="input-wrapper">
       <input 
         [(ngModel)]="city" 
