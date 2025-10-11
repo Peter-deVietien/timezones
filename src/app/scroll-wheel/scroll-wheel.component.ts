@@ -10,6 +10,13 @@ export class ScrollWheelComponent {
 
   currentOffset: number = 0;  // Start at 0hr
 
+  get formattedOffset(): string {
+    if (this.currentOffset > 0) {
+      return `+${this.currentOffset}`;
+    }
+    return `${this.currentOffset}`;
+  }
+
   adjustHour(offset: number) {
     this.currentOffset += offset;
     this.timeAdjustment.emit(this.currentOffset);
