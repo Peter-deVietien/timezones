@@ -2,93 +2,224 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
   min-height: 100vh;
+  padding: 0;
+}
+
+// Header Styles
+.app-header {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-light) 100%);
+  color: var(--white);
+  padding: 1.25rem 2rem;
   text-align: center;
-  padding: 20px;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 2rem;
 }
 
-.add-clock-container {
-  margin-bottom: 20px;
+.app-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.025em;
 }
 
-.add-clock-button {
-  font-size: 1.5em;  // Reduced from 2em
-  padding: 15px 30px;  // Reduced from 20px 40px
-  background-color: #ffcc00;
-  border: none;
-  border-radius: 8px;
-  color: black;
-  cursor: pointer;
-  font-weight: 600;
+// Main Content
+.main-content {
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 2rem 3rem;
 }
 
-.add-clock-button:hover {
-  background-color: #e6b800;
+// Section Styles
+.section {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  margin-bottom: 2rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--gray-100);
 }
 
 .section-title {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #333;
-  margin: 20px 0 15px 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--gray-900);
+  margin: 0;
+  letter-spacing: -0.025em;
 }
 
+// Clocks Layout
 .clocks-and-wheel {
   display: flex;
   flex-direction: row;
-  align-items: center;  // Changed from flex-start to center
-  gap: 20px;
+  align-items: flex-start;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.clocks-section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  flex: 1;
+  max-width: 900px;
 }
 
 .clocks-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  align-items: stretch;
+  gap: 1rem;
 }
 
-.scroll-wheel-wrapper {
-  display: flex;
-  flex-direction: column;
+// Add Clock Button
+.add-clock-button {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-}
-
-.reset-button {
-  background-color: #ff6b6b;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-teal-dark) 100%);
   border: none;
-  border-radius: 5px;
-  padding: 12px;
-  color: white;
-  font-size: 1.1em;
-  font-weight: bold;
+  border-radius: 10px;
+  color: var(--white);
   cursor: pointer;
-  width: 96px;  // Slightly narrower than scroll wheel (120px * 80%)
-  text-align: center;
-}
-
-.reset-button:hover {
-  background-color: #ee5a5a;
-}
-
-.live-clocks-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
   width: 100%;
+  border: 2px dashed var(--accent-teal-dark);
+  background: var(--white);
+  color: var(--accent-teal-dark);
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-teal-dark) 100%);
+    color: var(--white);
+    border-color: transparent;
+  }
+  
+  .button-icon {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+  }
 }
 
 .clock-item {
   width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
+// Scroll Wheel Wrapper
+.scroll-wheel-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: sticky;
+  top: 2rem;
+}
+
+// Reset Button
+.reset-button {
+  background: linear-gradient(135deg, var(--alert-red) 0%, #dc2626 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  color: var(--white);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 120px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+// Live Clocks Container
+.live-clocks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+// Divider
 .divider {
-  width: 80%;
-  height: 3px;
-  background: linear-gradient(to right, transparent, #ccc, transparent);
-  margin: 40px 0;
+  width: 100%;
+  max-width: 800px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gray-300), transparent);
+  margin: 3rem auto;
+  border: none;
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .clocks-and-wheel {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .scroll-wheel-wrapper {
+    position: static;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .clocks-section {
+    width: 100%;
+  }
+  
+  .clocks-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 1rem;
+  }
+  
+  .app-title {
+    font-size: 1.5rem;
+  }
+  
+  .main-content {
+    padding: 0 1rem 2rem;
+  }
+  
+  .section {
+    padding: 1.5rem;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
 }

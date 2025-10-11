@@ -10,10 +10,10 @@ export class AppComponent {
   @ViewChild('scrollWheel') scrollWheel!: ScrollWheelComponent;
   title = 'timezones';
   clocks: Array<{ city: string, timezone: string }> = [
+    { city: 'Beijing', timezone: 'Asia/Shanghai' },
+    { city: 'London', timezone: 'Europe/London' },
     { city: 'New York', timezone: 'America/New_York' },
-    { city: 'Houston', timezone: 'America/Chicago' },
-    { city: 'Los Angeles', timezone: 'America/Los_Angeles' },
-    { city: 'Beijing', timezone: 'Asia/Shanghai' }
+    { city: 'Los Angeles', timezone: 'America/Los_Angeles' }
   ];
   timeOffset = 0;
 

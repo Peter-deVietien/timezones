@@ -1,29 +1,50 @@
 <div class="app-container">
-  <div class="add-clock-container">
-    <button class="add-clock-button" (click)="addClock()">+ Add Clock</button>
-  </div>
-  
-  <!-- Static Clocks Section -->
-  <div class="clocks-and-wheel">
-    <div class="clocks-container">
-      <div *ngFor="let clock of clocks; let i = index" class="clock-item">
-        <app-clock [city]="clock.city" [timezone]="clock.timezone" [timeOffset]="timeOffset" (remove)="removeClock(i)"></app-clock>
+  <!-- Header -->
+  <header class="app-header">
+    <h1 class="app-title">Global Timezone Coordinator</h1>
+  </header>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Time Planning Section -->
+    <section class="section planning-section">
+      <div class="clocks-and-wheel">
+        <div class="clocks-section">
+          <div class="clocks-container">
+            <div *ngFor="let clock of clocks; let i = index" class="clock-item">
+              <app-clock 
+                [(city)]="clock.city" 
+                [(timezone)]="clock.timezone" 
+                [timeOffset]="timeOffset" 
+                (remove)="removeClock(i)">
+              </app-clock>
+            </div>
+          </div>
+          <button class="add-clock-button" (click)="addClock()">
+            <span class="button-icon">+</span>
+            <span>Add Timezone</span>
+          </button>
+        </div>
+        <div class="scroll-wheel-wrapper">
+          <app-scroll-wheel (timeAdjustment)="adjustTime($event)" #scrollWheel></app-scroll-wheel>
+          <button class="reset-button" (click)="resetTime()">Reset Time</button>
+        </div>
       </div>
-    </div>
-    <div class="scroll-wheel-wrapper">
-      <app-scroll-wheel (timeAdjustment)="adjustTime($event)" #scrollWheel></app-scroll-wheel>
-      <button class="reset-button" (click)="resetTime()">Reset</button>
-    </div>
-  </div>
+    </section>
 
-  <!-- Divider -->
-  <div class="divider"></div>
+    <!-- Divider -->
+    <div class="divider"></div>
 
-  <!-- Live Clocks Section -->
-  <div class="section-title">Current Time</div>
-  <div class="live-clocks-container">
-    <div *ngFor="let clock of clocks" class="clock-item">
-      <app-live-clock [city]="clock.city" [timezone]="clock.timezone"></app-live-clock>
-    </div>
+    <!-- Live Clocks Section -->
+    <section class="section current-time-section">
+      <div class="section-header">
+        <h2 class="section-title">Current Time</h2>
+      </div>
+      <div class="live-clocks-container">
+        <div *ngFor="let clock of clocks" class="clock-item">
+          <app-live-clock [city]="clock.city" [timezone]="clock.timezone"></app-live-clock>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

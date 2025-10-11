@@ -49,7 +49,7 @@ export class LiveClockComponent implements OnInit, OnDestroy, OnChanges {
   
     const timeOptions: Intl.DateTimeFormatOptions = { 
       timeZone: this.timezone, 
-      hour: 'numeric', 
+      hour: '2-digit', 
       minute: '2-digit',
       second: '2-digit',
       hour12: true

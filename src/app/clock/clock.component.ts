@@ -10,6 +10,8 @@ export class ClockComponent implements OnInit, OnChanges {
   @Input() timezone: string = '';
   @Input() timeOffset: number = 0;  // This is the offset from the simulated "current time"
   @Output() remove = new EventEmitter<void>();
+  @Output() cityChange = new EventEmitter<string>();
+  @Output() timezoneChange = new EventEmitter<string>();
 
   time: string = '';
   formattedDate: string = '';
@@ -175,6 +177,10 @@ export class ClockComponent implements OnInit, OnChanges {
     // Replace spaces with proper capitalization for matching
     const formattedCity = city.toLowerCase().replace(/\s+/g, '');
     this.timezone = this.cityTimezones[formattedCity] || '';
+
+    // Emit the changes back to parent component
+    this.cityChange.emit(this.city);
+    this.timezoneChange.emit(this.timezone);
 
     if (this.timezone) {
       this.updateTime();  // Update the clock with the new timezone
