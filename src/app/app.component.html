@@ -20,10 +20,13 @@
               </app-clock>
             </div>
           </div>
-          <button class="add-clock-button" (click)="addClock()">
-            <span class="button-icon">+</span>
-            <span>Add Timezone</span>
-          </button>
+          <div class="button-group">
+            <button class="add-clock-button" (click)="addClock()">
+              <span class="button-icon">+</span>
+              <span>Add Timezone</span>
+            </button>
+            <button class="sort-button" (click)="sortTimezones()">Sort Timezones</button>
+          </div>
         </div>
         <div class="scroll-wheel-wrapper">
           <app-scroll-wheel (timeAdjustment)="adjustTime($event)" #scrollWheel></app-scroll-wheel>
@@ -31,9 +34,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Divider -->
-    <div class="divider"></div>
 
     <!-- Live Clocks Section -->
     <section class="section current-time-section">
